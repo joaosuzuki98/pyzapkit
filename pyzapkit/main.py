@@ -2,6 +2,7 @@
 import os
 import platform
 import time
+import datetime
 
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -11,7 +12,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
 
 
-# TODO adicionar os tipos
 class Pyzap():
     def __init__(
             self, profile: str = 'Default', headless: bool = True) -> None:
@@ -20,10 +20,10 @@ class Pyzap():
         self.headless = headless
         op_sys = platform.system()
 
-        options = webdriver.ChromeOptions()
+        self.options = webdriver.ChromeOptions()
 
         if self.headless:
-            options.add_argument('--headless=new')
+            self.options.add_argument('--headless=new')
             print('Headless mode on')
         print('Headless mode off')
 
@@ -31,36 +31,41 @@ class Pyzap():
             # Setting linux home path
             home_path_linux = os.environ['HOME']
 
-            options.add_argument(
+            self.options.add_argument(
                 f'user-data-dir={home_path_linux}/.config/google-chrome'
             )
-            service = Service(executable_path='./driver/chromedriver_linux')
+            self.service = Service(
+                executable_path='./driver/chromedriver_linux')
         else:
             # Setting windows home path
             home_path_windows = os.environ['USERPROFILE']
 
-            options.add_argument(
+            self.options.add_argument(
                 f'user-data-dir={home_path_windows}'
                 '\\AppData\\Local\\Google\\Chrome\\User Data'
             )
-            service = Service(executable_path='./driver/chromedriver_win64')
+            self.service = Service(
+                executable_path='./driver/chromedriver_win64')
 
-        options.add_argument(f'--profile-directory={self.profile}')
-
-        self.driver = webdriver.Chrome(
-            service=service,
-            options=options
-        )
+        self.options.add_argument(f'--profile-directory={self.profile}')
 
     def sendmessage(
             self,
             phone_number: str,
             message: str,
-            instantly: bool = True
+            instantly: bool = True,
+            hour: str = '15',
+            min: str = '30'
     ) -> None:
         print('Initializing...')
 
         if instantly:
+            self.driver = webdriver.Chrome(
+                service=self.service,
+                options=self.options
+            )
+
+            print('Accessing Whatsapp')
             self.driver.get(
                 'https://web.whatsapp.com/send?phone='
                 f'+{phone_number}&text={message}'
@@ -74,6 +79,8 @@ class Pyzap():
                         'span'
                     ))
                 )
+
+                time.sleep(2)
                 send_button.click()
                 print('Message sent')
                 time.sleep(.5)
@@ -81,11 +88,55 @@ class Pyzap():
                 print('Closing browser')
                 time.sleep(.5)
                 self.driver.quit()
-
             except NoSuchElementException:
                 print('An error ocurred')
                 time.sleep(.5)
                 self.driver.quit()
+        else:
+            target_time = f'{hour}:{min}'
+            print(f'Message queued to {target_time}')
+
+            while True:
+                current_time = datetime.datetime.now().time().strftime('%H:%M')
+
+                if current_time == target_time:
+                    self.driver = webdriver.Chrome(
+                        service=self.service,
+                        options=self.options
+                    )
+
+                    print('Accessing Whatsapp')
+                    self.driver.get(
+                        'https://web.whatsapp.com/send?phone='
+                        f'+{phone_number}&text={message}'
+                        )
+
+                    try:
+                        send_button = WebDriverWait(self.driver, 60).until(
+                            EC.presence_of_element_located((
+                                By.XPATH, '/html/body/div[1]/div/div/div[5]/'
+                                'div/footer/div[1]/div/span[2]/div/div[2]/'
+                                'div[2]/button/span'
+                            ))
+                        )
+
+                        time.sleep(2)
+                        send_button.click()
+                        print('Message sent')
+                        time.sleep(.5)
+
+                        print('Closing browser')
+                        time.sleep(.5)
+                        self.driver.quit()
+                        break
+                    except NoSuchElementException:
+                        print('An error ocurred')
+                        time.sleep(.5)
+                        self.driver.quit()
+                        break
+
+                time.sleep(1)
 
 
 x = Pyzap('Profile 6', False)
+x.sendmessage('5512991527926', 'Esta mensagem é automatizada')

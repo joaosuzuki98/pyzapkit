@@ -4,3 +4,11 @@ class ChromeProfileException(Exception):
     """
 
     pass
+
+
+class NumberNotFoundException(Exception):
+    """
+    Phone number does not exist
+    """
+
+    pass

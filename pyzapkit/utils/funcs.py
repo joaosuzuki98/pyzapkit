@@ -32,7 +32,20 @@ class BrowserControl():
             )
 
         try:
-            send_button = WebDriverWait(driver, 20).until(
+            WebDriverWait(driver, 2).until(
+                EC.presence_of_element_located((
+                    By.XPATH, '/html/body/div[1]/div/div/div[3]/div[2]/div[1]'
+                ))
+            )
+
+            raise exceptions.ChromeProfileException(
+                'Wrong profile, you must choose a chrome profile '
+                'that has your WhatsApp web account logged in')
+        except TimeoutException:
+            print('Connecting to WhatsApp Web')
+
+        try:
+            send_button = WebDriverWait(driver, 15).until(
                 EC.presence_of_element_located((
                     By.XPATH, '/html/body/div[1]/div/div/div[5]/div/'
                     'footer/div[1]/div/span[2]/div/div[2]/div[2]/button/'
@@ -49,7 +62,6 @@ class BrowserControl():
             time.sleep(.5)
             driver.quit()
         except TimeoutException as e:
-            raise exceptions.ChromeProfileException(
-                'Wrong profile, you must choose a chrome profile '
-                'that has your WhatsApp web account logged in'
+            raise exceptions.NumberNotFoundException(
+                'Phone number does not exist'
             ) from e

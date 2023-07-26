@@ -12,3 +12,11 @@ class NumberNotFoundException(Exception):
     """
 
     pass
+
+
+class PhoneNotNumberException(Exception):
+    """
+    Phone number must only have numbers
+    """
+
+    pass

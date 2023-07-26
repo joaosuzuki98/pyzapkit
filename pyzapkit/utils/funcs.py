@@ -7,6 +7,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+from typing import Union
 
 
 class BrowserControl():
@@ -15,11 +16,18 @@ class BrowserControl():
 
     def browser_send(
             self,
-            zap_phone: str,
-            zap_message: str,
+            zap_phone: Union[str, int],
+            zap_message: Union[str, int],
             browser_service,
             browser_options
     ):
+        try:
+            int(zap_phone)
+        except ValueError as e:
+            raise exceptions.PhoneNotNumberException(
+                'Phone numbers must only have numbers'
+            ) from e
+
         driver = webdriver.Chrome(
             service=browser_service,
             options=browser_options
@@ -42,7 +50,7 @@ class BrowserControl():
                 'Wrong profile, you must choose a chrome profile '
                 'that has your WhatsApp web account logged in')
         except TimeoutException:
-            print('Connecting to WhatsApp Web')
+            print('Connecting to WhatsApp Web...')
 
         try:
             send_button = WebDriverWait(driver, 15).until(

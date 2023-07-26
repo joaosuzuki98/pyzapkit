@@ -7,6 +7,7 @@ import datetime
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from utils import funcs
+from typing import Union
 
 
 class Pyzap(funcs.BrowserControl):
@@ -48,8 +49,8 @@ class Pyzap(funcs.BrowserControl):
 
     def sendmessage(
             self,
-            phone_number: str,
-            message: str,
+            phone_number: Union[str, int],
+            message: Union[str, int],
             instantly: bool = True,
             hour: str = '15',
             min: str = '30'

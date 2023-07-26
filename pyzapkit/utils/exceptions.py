@@ -20,3 +20,27 @@ class PhoneNotNumberException(Exception):
     """
 
     pass
+
+
+class TimeNotNumberException(Exception):
+    """
+    Time must only have numbers
+    """
+
+    pass
+
+
+class HourLimitException(Exception):
+    """
+    Use 24-hour format (0 - 23)
+    """
+
+    pass
+
+
+class MinLimitException(Exception):
+    """
+    Minutes between 0 - 59
+    """
+
+    pass

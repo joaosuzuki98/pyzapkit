@@ -6,7 +6,7 @@ import datetime
 
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
-from utils import funcs
+from utils import funcs, exceptions
 from typing import Union
 
 
@@ -52,9 +52,27 @@ class Pyzap(funcs.BrowserControl):
             phone_number: Union[str, int],
             message: Union[str, int],
             instantly: bool = True,
-            hour: str = '15',
-            min: str = '30'
+            hour: Union[str, int] = '15',
+            min: Union[str, int] = '00'
     ) -> None:
+        try:
+            int_hour = int(hour)
+            int_min = int(min)
+        except ValueError as e:
+            raise exceptions.TimeNotNumberException(
+                'Time should only consist of numbers'
+            ) from e
+
+        if not 0 <= int_hour <= 23:
+            raise exceptions.HourLimitException(
+                'Write in 24-Hour format (0 - 23)'
+            )
+
+        if not 0 <= int_min <= 59:
+            raise exceptions.MinLimitException(
+                'Write minutes from to 0 to 59'
+            )
+
         print('Initializing...')
 
         if instantly:

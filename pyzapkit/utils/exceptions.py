@@ -44,3 +44,11 @@ class MinLimitException(Exception):
     """
 
     pass
+
+
+class FilePathNotFoundException(Exception):
+    """
+    File path provided does not exist
+    """
+
+    pass

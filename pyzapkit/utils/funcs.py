@@ -14,12 +14,20 @@ def img_vid_msg(file_pathname: str) -> None:
         if os.path.isfile(file_pathname):
             pyautogui.PAUSE = 1.5
 
-            pyautogui.press('win', presses=2)
+            # In case the dialog box isn't focused by default
+            x, y = pyautogui.size()
+            pyautogui.moveTo(int(x / 2), int(y / 2))
+            pyautogui.click()
             print('Choosing file...')
 
             pyautogui.hotkey('ctrl', 'l')
 
-            pyautogui.write(file_pathname)
+            formated_pathname = file_pathname.split('/')
+
+            for word in formated_pathname:
+                pyautogui.press('divide')
+                pyautogui.write(word, interval=0.050)
+
             print('Image/video found!')
 
             pyautogui.press('enter')

@@ -6,13 +6,13 @@ import datetime
 
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
-from utils import funcs, exceptions
+from utils import exceptions, browser_control
 from typing import Union
 
 
-class Pyzap(funcs.BrowserControl):
+class Pyzap(browser_control.BrowserControl):
     def __init__(
-            self, profile: str = 'Default', headless: bool = True) -> None:
+            self, profile: str = 'Default', headless: bool = False) -> None:
 
         self.profile = profile
         self.headless = headless
@@ -76,7 +76,7 @@ class Pyzap(funcs.BrowserControl):
         print('Initializing...')
 
         if instantly:
-            self.browser_send(
+            self.browser_msg(
                 phone_number, message, self.service, self.options)
         else:
             target_time = f'{hour}:{min}'
@@ -86,10 +86,37 @@ class Pyzap(funcs.BrowserControl):
                 current_time = datetime.datetime.now().time().strftime('%H:%M')
 
                 if current_time == target_time:
-                    self.browser_send(
+                    self.browser_msg(
                         phone_number, message, self.service, self.options)
                     break
                 time.sleep(1)
 
+    def sendfile(
+        self,
+        phone_number: Union[int, str],
+        file_pathname: str,
+        instantly: bool = True,
+        hour: Union[str, int] = '15',
+        min: Union[str, int] = '00'
+    ) -> None:
 
-x = Pyzap('Profile 6', False)
+        print('Initializing...')
+
+        if instantly:
+            self.browser_img_vid(phone_number, file_pathname,
+                                 self.service, self.options)
+        else:
+            target_time = f'{hour}:{min}'
+            print(f'Message queued to {target_time}')
+
+            while True:
+                current_time = datetime.datetime.now().time().strftime('%H:%M')
+
+                if current_time == target_time:
+                    self.browser_img_vid(phone_number, file_pathname,
+                                         self.service, self.options)
+                    break
+                time.sleep(1)
+
+
+x = Pyzap('Profile 6')

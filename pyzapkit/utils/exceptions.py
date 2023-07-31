@@ -52,3 +52,11 @@ class FilePathNotFoundException(Exception):
     """
 
     pass
+
+
+class WrongFileExtensionExceptions(Exception):
+    """
+    File extension is not supported
+    """
+
+    pass

@@ -1,14 +1,33 @@
 """Some functions for the Pyzap functioning"""
-import pyperclip
+import pyautogui
+import os
+
+from utils import exceptions
 
 
-def clipboard_copy(file_pathname):
-    try:
-        with open(file_pathname, 'rb') as file:
-            file_content = file.read()
-            file_content_base64 = file_content.encode('base64')
+def img_vid_msg(file_pathname: str) -> None:
+    # Checking if file format is compatible with the type of message option
+    file_extensions = ['.jpeg', '.jpg', '.png', '.mp4']
+    _, file_extension = os.path.splitext(file_pathname)
 
-            pyperclip.copy(file_content_base64)
-            print(f'{file_pathname} copied to the clipboard')
-    except Exception as e:
-        print(f'An error ocurred while copying the file: {e}')
+    if file_extension.lower() in file_extensions:
+        if os.path.isfile(file_pathname):
+            pyautogui.PAUSE = 1.5
+
+            pyautogui.press('win', presses=2)
+            print('Choosing file...')
+
+            pyautogui.hotkey('ctrl', 'l')
+
+            pyautogui.write(file_pathname)
+            print('Image/video found!')
+
+            pyautogui.press('enter')
+        else:
+            raise exceptions.FilePathNotFoundException(
+                'File do not exist'
+            )
+    else:
+        raise exceptions.WrongFileExtensionExceptions(
+            'File format must be either jpeg, jpg, png or mp4'
+        )

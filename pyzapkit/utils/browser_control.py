@@ -81,6 +81,11 @@ class BrowserControl():
             browser_service,
             browser_options
     ):
+        if not isinstance(file_path, str):
+            raise ValueError(
+                'file path name must be a string'
+            )
+
         try:
             int(zap_phone)
         except ValueError as e:

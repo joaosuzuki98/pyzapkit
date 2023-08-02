@@ -118,5 +118,32 @@ class Pyzap(browser_control.BrowserControl):
                     break
                 time.sleep(1)
 
+    def send_doc(
+        self,
+        phone_number: Union[int, str],
+        doc_pathname: str,
+        instantly: bool = True,
+        hour: Union[str, int] = '15',
+        min: Union[str, int] = '00'
+    ) -> None:
+
+        print('Initializing...')
+
+        if instantly:
+            self.browser_doc(phone_number, doc_pathname,
+                             self.service, self.options)
+        else:
+            target_time = f'{hour}:{min}'
+            print(f'Message queued to {target_time}')
+
+            while True:
+                current_time = datetime.datetime.now().time().strftime('%H:%M')
+
+                if current_time == target_time:
+                    self.browser_doc(phone_number, doc_pathname,
+                                     self.service, self.options)
+                    break
+                time.sleep(1)
+
 
 x = Pyzap('Profile 6')

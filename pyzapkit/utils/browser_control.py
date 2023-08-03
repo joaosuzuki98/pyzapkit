@@ -78,12 +78,18 @@ class BrowserControl():
             self,
             zap_phone: Union[str, int],
             file_path: str,
+            waiting_time: int,
             browser_service,
             browser_options
     ):
         if not isinstance(file_path, str):
             raise ValueError(
                 'file path name must be a string'
+            )
+
+        if not isinstance(waiting_time, int):
+            raise ValueError(
+                'Load time must be an int'
             )
 
         try:
@@ -161,25 +167,35 @@ class BrowserControl():
             print('File sent')
             time.sleep(.5)
 
-            print('Closing browser')
-            time.sleep(.5)
-            driver.quit()
-
         except NoSuchElementException as e:
             raise exceptions.FilePathNotFoundException(
                 'File path not found'
             ) from e
 
+        # User must add a time for the file to load
+        print('Waiting for file to upload')
+        time.sleep(waiting_time)
+
+        print('Closing browser')
+        time.sleep(.5)
+        driver.quit()
+
     def browser_doc(
         self,
         zap_phone: Union[str, int],
         doc_path: str,
+        waiting_time: int,
         browser_service,
         browser_options
     ):
         if not isinstance(doc_path, str):
             raise ValueError(
                 'document path name must be a string'
+            )
+
+        if not isinstance(waiting_time, int):
+            raise ValueError(
+                'Load time must be an int'
             )
 
         try:
@@ -256,13 +272,16 @@ class BrowserControl():
 
             send_doc_btn.click()
             print('File sent')
-            time.sleep(.5)
-
-            print('Closing browser')
-            time.sleep(.5)
-            driver.quit()
 
         except NoSuchElementException as e:
             raise exceptions.FilePathNotFoundException(
                 'File path not found'
             ) from e
+
+        # User must add a time for the file to load
+        print('Waiting for file to upload')
+        time.sleep(waiting_time)
+
+        print('Closing browser')
+        time.sleep(.5)
+        driver.quit()

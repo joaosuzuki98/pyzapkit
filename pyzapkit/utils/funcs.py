@@ -36,7 +36,7 @@ def img_vid_msg(file_pathname: str) -> None:
                 'File do not exist'
             )
     else:
-        raise exceptions.WrongFileExtensionExceptions(
+        raise exceptions.WrongFileExtensionException(
             'File format must be either jpeg, jpg, png or mp4'
         )
 
@@ -73,7 +73,7 @@ def doc_msg(doc_pathname: str) -> None:
                 'File do not exist'
             )
     else:
-        raise exceptions.WrongFileExtensionExceptions(
+        raise exceptions.WrongFileExtensionException(
             'File format must be either txt, doc, '
             'docx, pdf, xls, xlsx, ppt or pptx'
         )

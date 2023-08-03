@@ -95,6 +95,7 @@ class Pyzap(browser_control.BrowserControl):
         self,
         phone_number: Union[int, str],
         file_pathname: str,
+        load_time: int = 15,
         instantly: bool = True,
         hour: Union[str, int] = '15',
         min: Union[str, int] = '00'
@@ -103,7 +104,7 @@ class Pyzap(browser_control.BrowserControl):
         print('Initializing...')
 
         if instantly:
-            self.browser_img_vid(phone_number, file_pathname,
+            self.browser_img_vid(phone_number, file_pathname, load_time,
                                  self.service, self.options)
         else:
             target_time = f'{hour}:{min}'
@@ -122,6 +123,7 @@ class Pyzap(browser_control.BrowserControl):
         self,
         phone_number: Union[int, str],
         doc_pathname: str,
+        load_time: int = 15,
         instantly: bool = True,
         hour: Union[str, int] = '15',
         min: Union[str, int] = '00'
@@ -130,7 +132,7 @@ class Pyzap(browser_control.BrowserControl):
         print('Initializing...')
 
         if instantly:
-            self.browser_doc(phone_number, doc_pathname,
+            self.browser_doc(phone_number, doc_pathname, load_time,
                              self.service, self.options)
         else:
             target_time = f'{hour}:{min}'
@@ -147,3 +149,4 @@ class Pyzap(browser_control.BrowserControl):
 
 
 x = Pyzap('Profile 6')
+x.send_doc('5512991527926', '/home/joao-suzuki/teste.txt')

@@ -93,7 +93,7 @@ class BrowserControl():
             time.sleep(2)
             send_button.click()
             print('Message sent')
-            time.sleep(.5)
+            time.sleep(1)
 
             print('Closing browser')
             time.sleep(.5)
@@ -119,6 +119,11 @@ class BrowserControl():
         if not isinstance(waiting_time, int):
             raise ValueError(
                 'Load time must be an int'
+            )
+
+        if not isinstance(waiting_time, int):
+            raise ValueError(
+                'Load time must be an integer'
             )
 
         self._open_whatsappweb(zap_phone, '', browser_service, browser_options)
@@ -153,7 +158,7 @@ class BrowserControl():
 
         time.sleep(1.5)
 
-        funcs._file_getter(file_path, 1)
+        funcs._file_getter(file_path, 'img-vid')
 
         self._send_file_btn(waiting_time)
 
@@ -173,6 +178,11 @@ class BrowserControl():
         if not isinstance(waiting_time, int):
             raise ValueError(
                 'Load time must be an int'
+            )
+
+        if not isinstance(waiting_time, int):
+            raise ValueError(
+                'Load time must be an integer'
             )
 
         self._open_whatsappweb(zap_phone, '', browser_service, browser_options)
@@ -208,6 +218,6 @@ class BrowserControl():
 
         time.sleep(1.5)
 
-        funcs._file_getter(doc_path, 0)
+        funcs._file_getter(doc_path, 'doc')
 
         self._send_file_btn(waiting_time)

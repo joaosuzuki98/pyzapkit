@@ -5,13 +5,14 @@ import os
 from utils import exceptions
 
 
-def _file_getter(file_pathname: str, file_type) -> None:
+def _file_getter(file_pathname: str, file_type: str) -> None:
     # Checking if file format is compatible with the type of message option
-    file_extensions = ['.jpeg', '.jpg', '.png', '.mp4']
-
-    if file_type == 0:
-        file_extensions = [
-            '.txt', '.xls', '.xlsx', '.pdf', '.doc', '.docx', '.pptx', '.ppt']
+    file_extensions = []
+    if file_type == 'doc':
+        file_extensions.extend((
+            '.txt', '.xls', '.xlsx', '.pdf', '.doc', '.docx', '.pptx', '.ppt'))
+    else:
+        file_extensions.extend(('.jpeg', '.jpg', '.png', '.mp4'))
 
     _, file_extension = os.path.splitext(file_pathname)
 
@@ -41,7 +42,7 @@ def _file_getter(file_pathname: str, file_type) -> None:
                 'File do not exist'
             )
     else:
-        if file_type == 1:
+        if file_type == 'img-vid':
             raise exceptions.WrongFileExtensionException(
                 'File format must be either jpeg, jpg, png or mp4'
             )

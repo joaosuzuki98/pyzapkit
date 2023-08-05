@@ -47,14 +47,7 @@ class Pyzap(browser_control.BrowserControl):
 
         self.options.add_argument(f'--profile-directory={self.profile}')
 
-    def send_message(
-            self,
-            phone_number: Union[str, int],
-            message: Union[str, int],
-            instantly: bool = True,
-            hour: Union[str, int] = '15',
-            min: Union[str, int] = '00'
-    ) -> None:
+    def _send(self, instantly, hour, min, func, *args):
         try:
             int_hour = int(hour)
             int_min = int(min)
@@ -76,8 +69,7 @@ class Pyzap(browser_control.BrowserControl):
         print('Initializing...')
 
         if instantly:
-            self.browser_msg(
-                phone_number, message, self.service, self.options)
+            func(*args)
         else:
             target_time = f'{hour}:{min}'
             print(f'Message queued to {target_time}')
@@ -86,10 +78,21 @@ class Pyzap(browser_control.BrowserControl):
                 current_time = datetime.datetime.now().time().strftime('%H:%M')
 
                 if current_time == target_time:
-                    self.browser_msg(
-                        phone_number, message, self.service, self.options)
+                    func(*args)
                     break
                 time.sleep(1)
+
+    def send_message(
+            self,
+            phone_number: Union[str, int],
+            message: Union[str, int],
+            instantly: bool = True,
+            hour: Union[str, int] = '15',
+            min: Union[str, int] = '00'
+    ) -> None:
+        self._send(
+            instantly, hour, min, self.browser_msg, phone_number, message,
+            self.service, self.options)
 
     def send_file(
         self,
@@ -100,24 +103,9 @@ class Pyzap(browser_control.BrowserControl):
         hour: Union[str, int] = '15',
         min: Union[str, int] = '00'
     ) -> None:
-
-        print('Initializing...')
-
-        if instantly:
-            self.browser_img_vid(phone_number, file_pathname, load_time,
-                                 self.service, self.options)
-        else:
-            target_time = f'{hour}:{min}'
-            print(f'Message queued to {target_time}')
-
-            while True:
-                current_time = datetime.datetime.now().time().strftime('%H:%M')
-
-                if current_time == target_time:
-                    self.browser_img_vid(phone_number, file_pathname,
-                                         self.service, self.options)
-                    break
-                time.sleep(1)
+        self._send(
+            instantly, hour, min, self.browser_img_vid, phone_number,
+            file_pathname, load_time, self.service, self.options)
 
     def send_doc(
         self,
@@ -128,24 +116,9 @@ class Pyzap(browser_control.BrowserControl):
         hour: Union[str, int] = '15',
         min: Union[str, int] = '00'
     ) -> None:
-
-        print('Initializing...')
-
-        if instantly:
-            self.browser_doc(phone_number, doc_pathname, load_time,
-                             self.service, self.options)
-        else:
-            target_time = f'{hour}:{min}'
-            print(f'Message queued to {target_time}')
-
-            while True:
-                current_time = datetime.datetime.now().time().strftime('%H:%M')
-
-                if current_time == target_time:
-                    self.browser_doc(phone_number, doc_pathname,
-                                     self.service, self.options)
-                    break
-                time.sleep(1)
+        self._send(
+            instantly, hour, min, self.browser_doc, phone_number,
+            doc_pathname, load_time, self.service, self.options)
 
 
 x = Pyzap('Profile 6')

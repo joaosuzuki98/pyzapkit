@@ -47,7 +47,7 @@ class Pyzap(browser_control.BrowserControl):
 
         self.options.add_argument(f'--profile-directory={self.profile}')
 
-    def sendmessage(
+    def send_message(
             self,
             phone_number: Union[str, int],
             message: Union[str, int],
@@ -91,7 +91,7 @@ class Pyzap(browser_control.BrowserControl):
                     break
                 time.sleep(1)
 
-    def sendfile(
+    def send_file(
         self,
         phone_number: Union[int, str],
         file_pathname: str,
@@ -149,4 +149,3 @@ class Pyzap(browser_control.BrowserControl):
 
 
 x = Pyzap('Profile 6')
-x.send_doc('5512991527926', '/home/joao-suzuki/teste.txt')

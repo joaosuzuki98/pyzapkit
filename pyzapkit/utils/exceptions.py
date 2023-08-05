@@ -60,3 +60,10 @@ class WrongFileExtensionException(Exception):
     """
 
     pass
+
+class SystemNotSupportedException(Exception):
+    """
+    Supported Systems are Linux and Windows only
+    """
+
+    pass

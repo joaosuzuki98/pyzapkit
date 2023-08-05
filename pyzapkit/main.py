@@ -121,4 +121,4 @@ class Pyzap(browser_control.BrowserControl):
             doc_pathname, load_time, self.service, self.options)
 
 
-x = Pyzap('Profile 6')
+x = Pyzap()

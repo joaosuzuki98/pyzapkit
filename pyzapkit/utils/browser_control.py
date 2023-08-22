@@ -1,4 +1,4 @@
-"""Browser control functions"""
+"""Browser control methods"""
 import time
 from utils import exceptions, funcs
 from typing import Union
@@ -11,10 +11,25 @@ from selenium.common.exceptions import TimeoutException, NoSuchElementException
 
 
 class BrowserControl():
+    """Browser automation through selenium"""
     def __init__(self) -> None:
         pass
 
-    def _open_whatsappweb(self, phone, message, br_service, br_options):
+    def _open_whatsappweb(
+            self, phone: Union[str, int], message: Union[str, int], 
+            br_service, br_options):
+        """
+        Opens Whatsapp web with the given phone number and message
+
+        :param phone: the receiver phone number
+        :type phone: Union[str, int]
+        :param message: The message to be sent
+        :type message: Union[str, int]
+        :param br_service: Selenium browser services
+        :type br_service: Any
+        :param br_options: Selenium browser options
+        :type br_options: Any
+        """
         try:
             int(phone)
         except ValueError as e:
@@ -46,7 +61,13 @@ class BrowserControl():
         except TimeoutException:
             print('Connecting to WhatsApp Web...')
 
-    def _send_file_btn(self, load_time):
+    def _send_file_btn(self, load_time: int) -> None:
+        """
+        Click on the send button
+
+        :param load_time: The time to wait before closing the browser
+        :type load_time: int
+        """
         try:
             send_file_btn = WebDriverWait(self.driver, 60).until(
                 EC.presence_of_element_located((
@@ -77,7 +98,19 @@ class BrowserControl():
             zap_message: Union[str, int],
             browser_service,
             browser_options,
-    ):
+    ) -> None:
+        """
+        Sends the text message
+
+        :param zap_phone: The receiver phone number
+        :type zap_phone: Union[str, int]
+        :param zap_message:  The message to be sent
+        :type zap_message: Union[str, int]
+        :param br_service: Selenium browser services
+        :type br_service: Any
+        :param br_options: Selenium browser options
+        :type br_options: Any
+        """
         self._open_whatsappweb(
             zap_phone, zap_message, browser_service, browser_options)
 
@@ -110,7 +143,22 @@ class BrowserControl():
             waiting_time: int,
             browser_service,
             browser_options
-    ):
+    ) -> None:
+        """
+        Sends the image or video
+
+        :param zap_phone: The receiver phone number
+        :type zap_phone: Union[str, int]
+        :param file_path: The path of the file to be sent
+        :type file_path: str
+        :param waiting_time: The time to wait for the the file to be uploaded
+        before closing the browser
+        :type waiting_time: int
+        :param br_service: Selenium browser services
+        :type br_service: Any
+        :param br_options: Selenium browser options
+        :type br_options: Any
+        """
         if not isinstance(file_path, str):
             raise ValueError(
                 'file path name must be a string'
@@ -169,7 +217,22 @@ class BrowserControl():
         waiting_time: int,
         browser_service,
         browser_options
-    ):
+    ) -> None:
+        """
+        Sends the chosen document
+
+        :param zap_phone: The receiver phone number
+        :type zap_phone: Union[str, int]
+        :param doc_path: The path to the document
+        :type doc_path: str
+        :param waiting_time: The time the browser will wait for the document
+        to be uploaded before closing
+        :type waiting_time: int
+        :param br_service: Selenium browser services
+        :type br_service: Any
+        :param br_options: Selenium browser options
+        :type br_options: Any
+        """
         if not isinstance(doc_path, str):
             raise ValueError(
                 'document path name must be a string'

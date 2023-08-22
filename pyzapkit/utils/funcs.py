@@ -1,4 +1,4 @@
-"""Some functions for the Pyzap functioning"""
+"""PyAutoGui functions"""
 import pyautogui
 import os
 import platform
@@ -7,6 +7,15 @@ from utils import exceptions
 
 
 def _file_getter(file_pathname: str, file_type: str) -> None:
+    """
+    Checks if the file exist and if its extension is supported. If so, then
+    It will upload that file
+
+    :param file_pathname: The path to the file
+    :type file_pathname: str
+    :param file_type: The type of file (document or image/video)
+    :type file_type: str
+    """
     # Checking if file format is compatible with the type of message option
     file_extensions = []
     if file_type == 'doc':

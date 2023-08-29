@@ -3,7 +3,7 @@ import pyautogui
 import os
 import platform
 
-from utils import exceptions
+from pyzapkit.utils import exceptions
 
 
 def _file_getter(file_pathname: str, file_type: str) -> None:
@@ -48,7 +48,7 @@ def _file_getter(file_pathname: str, file_type: str) -> None:
                     pyautogui.press('divide')
                     pyautogui.write(word, interval=0.05)
 
-                print('Image/video found!')
+                print('File found!')
 
                 pyautogui.press('enter')
 
@@ -62,7 +62,7 @@ def _file_getter(file_pathname: str, file_type: str) -> None:
                 )
         else:
             raise exceptions.FilePathNotFoundException(
-                'File do not exist'
+                'File does not exist'
             )
     else:
         if file_type == 'img-vid':

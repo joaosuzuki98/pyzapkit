@@ -1,6 +1,6 @@
 """Browser control methods"""
 import time
-from utils import exceptions, funcs
+from pyzapkit.utils import exceptions, funcs
 from typing import Union
 
 from selenium import webdriver
@@ -195,7 +195,7 @@ class BrowserControl():
                 EC.presence_of_element_located((
                     By.XPATH, '/html/body/div[1]/div/div/div[5]/div/footer/'
                     'div[1]/div/span[2]/div/div[1]/div[2]/div/span/div/ul/div/'
-                    'div[1]/li/div/span'
+                    'div[2]/li/div/span'
                 ))
             )
 
@@ -269,7 +269,7 @@ class BrowserControl():
                 EC.presence_of_element_located((
                     By.XPATH, '/html/body/div[1]/div/div/div[5]/div/footer/'
                     'div[1]/div/span[2]/div/div[1]/div[2]/div/span/div/ul/div/'
-                    'div[4]/li/div/span'
+                    'div[1]/li/div/span'
                 ))
             )
 

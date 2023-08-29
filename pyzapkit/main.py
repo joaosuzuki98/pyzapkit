@@ -7,14 +7,21 @@ Pyzapkit offers an automated way to send messages through Whatsapp.
 It contains methods to send images or videos, documents and normal text
 messages. It is possible to send them instantly or in a given time
 """
+import sys
+import dotenv
 import os
+
+dotenv.load_dotenv()
+pyzapkit_path = os.getenv('PYZAPKIT_PATH')
+sys.path.append(pyzapkit_path)
+
 import platform
 import time
 import datetime
 
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
-from utils import exceptions, browser_control
+from pyzapkit.utils import exceptions, browser_control
 from typing import Union, Callable
 
 
@@ -213,6 +220,3 @@ class Pyzap(browser_control.BrowserControl):
         self._send(
             instantly, hour, min, self.browser_doc, phone_number,
             doc_pathname, load_time, self.service, self.options)
-
-
-x = Pyzap('Profile 6')

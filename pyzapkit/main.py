@@ -37,25 +37,17 @@ class Pyzap(browser_control.BrowserControl):
     :type headless: bool
     """
     def __init__(
-            self, profile: str = 'Default', headless: bool = False) -> None:
+            self, profile: str = 'Default') -> None:
         """
         Constructs the necessary atributes of the Pyzap class.       
 
         :param profile: Google Chrome profile to be used
         :type profile: str
-        :param headless: Activate Google Chrome headless mode
-        :type headless: bool
         """
         self.profile = profile
-        self.headless = headless
         op_sys = platform.system()
 
         self.options = webdriver.ChromeOptions()
-
-        if self.headless:
-            self.options.add_argument('--headless=new')
-            print('Headless mode on')
-        print('Headless mode off')
 
         if op_sys == 'Linux':
             # Setting linux home path

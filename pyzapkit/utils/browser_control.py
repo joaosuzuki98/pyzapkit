@@ -16,7 +16,7 @@ class BrowserControl():
         pass
 
     def _open_whatsappweb(
-            self, phone: Union[str, int], message: Union[str, int], 
+            self, phone: Union[str, int], message: Union[str, int],
             br_service, br_options):
         """
         Opens Whatsapp web with the given phone number and message

@@ -8,11 +8,9 @@ It contains methods to send images or videos, documents and normal text
 messages. It is possible to send them instantly or in a given time
 """
 import sys
-import dotenv
 import os
 
-dotenv.load_dotenv()
-pyzapkit_path = os.getenv('PYZAPKIT_PATH')
+pyzapkit_path = os.path.abspath(os.getcwd())
 sys.path.append(pyzapkit_path)
 
 import platform
@@ -201,7 +199,7 @@ class Pyzap(browser_control.BrowserControl):
         :param load_time: The time selenium will wait before closing the
         browser, so the document sent can be uploaded
         :type load_time: int
-        :param instantly: If the document will be sent instantly or at a given 
+        :param instantly: If the document will be sent instantly or at a given
         time
         :type instantly: bool
         :param hour: The hour in which the document will be sent

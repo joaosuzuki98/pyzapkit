@@ -13,6 +13,7 @@ setup(
     version='0.1.0',
     description='Automatically send Whatsapp messages and files',
     long_description=long_description,
+    long_description_content_type="text/markdown",
     author='João Suzuki',
     license='MIT',
     install_requires=[
